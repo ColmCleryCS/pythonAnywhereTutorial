@@ -62,7 +62,7 @@ class CountryForm(FlaskForm):
 def new_country():
     form = CountryForm()
     if form.validate_on_submit():
-        new_country = Countries(name=form.country.data,population=form.population.data,capital=form.capital.data)
+        new_country = Countries(name=form.name.data,population=form.population.data,capital=form.capital.data)
         db.session.add(new_country)
         db.session.commit()
         return redirect(url_for('countries'))
