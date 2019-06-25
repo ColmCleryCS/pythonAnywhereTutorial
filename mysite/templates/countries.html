@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+   <body style="Background-color: light-blue">
+    <nav style="background-color: #222;
+    border-color: #080808; position: relative;
+    min-height: 50px;
+    margin-bottom: 20px;
+    margin-top: 0px;
+    border: 1px solid transparent; color:white; ">
+      <h3 style="margin-left: 300px;">Countries Data</h3>
+    </nav>
+    {% block content %}
+        <div style="max-height: 40vh">
+        {% for country in countries %}
+
+           <section style="border-bottom: 6px solid red;
+  background-color: lightgrey; margin-left: 100px; margin-right: 150px">
+                <p style="margin-left: 300px;"><strong>Country Name: </strong>{{country.name }}</p>
+                <p style="margin-left: 300px;"><strong>Country Capital: </strong>{{ country.capital }}</p>
+                <p style="margin-left: 300px;"><strong>Country Population: </strong>{{ country.population }}</p>
+            </section>
+
+        {% endfor %}
+        </div>
+    {% endblock %}
+   </body>
+</html>

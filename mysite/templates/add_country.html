@@ -1,0 +1,77 @@
+<html>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <body>
+      {% block content %}
+      <nav style="background-color: #222;
+    border-color: #080808; position: relative;
+    min-height: 50px;
+    margin-bottom: 20px;
+    margin-top: 0px;
+    border: 1px solid transparent; color:white; ">
+      <h3 style="margin-left: 600px;">Add Country</h3>
+    </nav>
+
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p style="color: blue;margin-left: 100px">
+            {{ form.name.label }}<br>
+            {{ form.name(**{"onchange":"test_name(this)"}) }}<br>
+            <p id="error_message" style="color: red; margin-left: 100px"></p>
+            {% for error in form.name.errors %}
+            <span  style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p style="color: blue; margin-left: 100px">
+            {{ form.capital.label }}<br>
+            {{ form.capital(size=32) }}<br>
+            {% for error in form.capital.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p style="color: blue; margin-left: 100px">
+            {{ form.population.label }}<br>
+            {{ form.population(size=32) }}<br>
+            {% for error in form.population.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p style="margin-left: 100px">{{ form.submit() }}</p>
+    </form>
+    {% endblock %}
+   </body>
+   <script>
+       function test_name(evt){
+           //retrieve fomr.population
+           current_country = evt.value;
+           console.log("CHANGE IN COUNTRY");
+            $.ajax(
+            {
+              type : 'POST',
+              url : "/country_change",
+              contentType: "application/json;charset=UTF-8",
+              dataType:'json',
+              data    : JSON.stringify( { "country" : current_country } ),
+              success : function(data)
+              {
+                console.log("Server message = "+data['country_status']);
+                var error_message = document.getElementById("error_message")
+                if (data['country_status'] !="OK")
+                {
+                  console.log("SHOULD BE MESSAGE");
+                  error_message.style.display = 'inline';
+                  error_message.innerHTML = data['country_status'];
+
+                }
+                else{
+                  console.log("SHOULD NOT BE MESSAGE");
+                  error_message.style.display = 'none';
+
+                }
+              }
+
+       })
+       }
+
+
+   </script>
+</html>
